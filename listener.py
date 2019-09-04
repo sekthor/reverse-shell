@@ -20,23 +20,26 @@ def main():
 	while sock:
 		data = input("[>] ")
 
+		if data != "":
+			action = data.split()[0]
+			response = b"[!] No response"
 
-		action = data.split()[0]
-		response = b"[!] No response"
+			if action == "system":
+				sock.send(data.encode())
+				response = sock.recv(1024)
+				
+			elif action == "steal":
+				# TODO
+				pass
+			elif action == "place":
+				# TODO
+				pass
+			else:
+				pass
 
-		if action == "system":
-			sock.send(data.encode())
-			response = sock.recv(1024)
+			print(response.decode())
 			
-		elif action == "steal":
-			# TODO
-			pass
-		elif action == "place":
-			# TODO
-			pass
 		else:
 			pass
-
-		print(response.decode())
 
 main()
