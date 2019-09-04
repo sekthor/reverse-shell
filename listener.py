@@ -17,21 +17,15 @@ def steal(sock, path):
 
 
 def place(sock, path):
-	
-
 	file = open(path, "rb")
-
-	print("read", path)
 	
 	f = file.read(1024)
-
 	while f:
 		sock.send(f)
 		f = file.read(1024)
 	
 	file.close()
 	sleep(0.2)
-
 	sock.send("end".encode())
 	
 

