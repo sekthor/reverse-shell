@@ -58,7 +58,7 @@ def parseCommand(raw):
 def main():
 
 	host = "localhost"
-	
+
 	if len(argv) > 1:
 		try:
 			port = int(argv[1])
