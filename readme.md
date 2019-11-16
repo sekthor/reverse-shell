@@ -1,6 +1,6 @@
 # python reverse shell
 
-This is a reverse shell written in python3. It allows an attacker to remotely send commands to the victims command promt and steal and place files. 
+This is a reverse shell written in python3. It allows an attacker to remotely send commands to the victims command promt and steal and place files. As of right now it is still pretty buggy. Will fix some time in the future.
 
 ## Description
 
